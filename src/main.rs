@@ -73,7 +73,7 @@ async fn main() -> anyhow::Result<()> {
     let provider = Arc::new(Provider::<Http>::try_from(opts.node_url)?);
 
     // grab all the state transitions
-    let futs = (opts.start_block..opts.end_block)
+    let futs = (opts.start_block..=opts.end_block)
         .step_by(opts.epoch_duration)
         .enumerate()
         .map(|(i, num)| {
