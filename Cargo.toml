@@ -6,8 +6,8 @@ edition = "2018"
 
 [dependencies]
 
-ethers-core = { path = "/Users/gakonst/projects/ethereum/ethers/ethers-core", features = ["celo"] }
-ethers-providers = { path = "/Users/gakonst/projects/ethereum/ethers/ethers-providers", features = ["celo"] }
+ethers-core = { git = "https://github.com/gakonst/ethers-rs", features = ["celo"] }
+ethers-providers = { git = "https://github.com/gakonst/ethers-rs", features = ["celo"] }
 
 bls-crypto = { git = "https://github.com/celo-org/celo-bls-snark-rs" }
 epoch-snark = { git = "https://github.com/celo-org/celo-bls-snark-rs" }

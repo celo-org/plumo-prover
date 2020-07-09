@@ -632,6 +632,7 @@ dependencies = [
 [[package]]
 name = "ethers-core"
 version = "0.1.3"
+source = "git+https://github.com/gakonst/ethers-rs#d0f1752db016ad53d35318100adbbd8da3b2c044"
 dependencies = [
  "arrayvec",
  "ethabi-next",
@@ -650,6 +651,7 @@ dependencies = [
 [[package]]
 name = "ethers-providers"
 version = "0.1.3"
+source = "git+https://github.com/gakonst/ethers-rs#d0f1752db016ad53d35318100adbbd8da3b2c044"
 dependencies = [
  "async-trait",
  "async-tungstenite",

@@ -1,9 +1,11 @@
 use algebra_core::{CanonicalDeserialize, CanonicalSerialize};
 use groth16::Parameters as Groth16Parameters;
 
-use epoch_snark::{prove, BLSCurve, CPCurve, EpochBlock, EpochTransition, Parameters};
 
-use ethers_core::utils::rlp;
+use epoch_snark::{prove, BLSCurve, CPCurve, EpochBlock, EpochTransition, Parameters};
+use bls_crypto::Signature;
+
+use ethers_core::{types::U256, utils::rlp};
 use ethers_providers::*;
 
 use gumdrop::Options;
@@ -82,6 +84,20 @@ async fn main() -> anyhow::Result<()> {
                 let epoch = rlp::decode::<HeaderExtra>(&block.extra_data.0)
                     .expect("could not decode extras");
 
+                // Get the bitmap / signature
+                let bitmap = {
+                    let bitmap_num = U256::from(&block.epoch_snark_data.bitmap.0[..]);
+                    let mut bitmap = Vec::new();
+                    for i in 0..256 {
+                        bitmap.push(bitmap_num.bit(i));
+                    }
+                    bitmap
+                };
+
+                let signature = block.epoch_snark_data.signature;
+                let aggregate_signature = Signature::deserialize(&mut &signature.0[..])
+                    .expect("could not deserialize signature - your header snark data is corrupt");
+
                 // construct the epoch block transition
                 EpochTransition {
                     block: EpochBlock {
@@ -89,8 +105,8 @@ async fn main() -> anyhow::Result<()> {
                         maximum_non_signers,
                         new_public_keys: epoch.added_validators_pubkeys,
                     },
-                    aggregate_signature: epoch.aggregated_seal.signature,
-                    bitmap: epoch.aggregated_seal.bitmap,
+                    aggregate_signature,
+                    bitmap,
                 }
             }
         })

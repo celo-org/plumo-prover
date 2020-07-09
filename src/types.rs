@@ -16,12 +16,11 @@ pub struct AggregatedSeal {
 
 impl Decodable for AggregatedSeal {
     fn decode(r: &Rlp) -> Result<Self, DecoderError> {
-        let bitmap: u64 = r.val_at(0)?;
+        let bitmap: U256 = r.val_at(0)?;
 
-        let bitmap: String = format!("{:b}", bitmap);
         let mut bits = Vec::new();
-        for c in bitmap.chars() {
-            bits.push(c == '1');
+        for i in 0..256 {
+            bits.push(bitmap.bit(i));
         }
 
         let signature: Vec<u8> = r.val_at(1)?;
@@ -40,7 +39,7 @@ impl Decodable for AggregatedSeal {
 pub struct HeaderExtra {
     pub added_validators: Vec<Address>,
     pub added_validators_pubkeys: Vec<BlsPubkey>,
-    pub removed_validators: u64,
+    pub removed_validators: U256,
     pub seal: Vec<u8>,
     pub aggregated_seal: AggregatedSeal,
     pub parent_aggregated_seal: AggregatedSeal,
@@ -63,7 +62,7 @@ impl Decodable for HeaderExtra {
             })
             .collect();
 
-        let removed_validators = r.val_at::<u32>(2)? as u64;
+        let removed_validators = r.val_at::<U256>(2)?;
         let seal: Vec<u8> = r.val_at(3)?;
         let aggregated_seal: AggregatedSeal = r.val_at(4)?;
         let parent_aggregated_seal: AggregatedSeal = r.val_at(5)?;
