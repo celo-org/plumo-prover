@@ -6,8 +6,8 @@ edition = "2018"
 
 [dependencies]
 
-ethers-core = { git = "https://github.com/gakonst/ethers-rs", features = ["celo"] }
-ethers-providers = { git = "https://github.com/gakonst/ethers-rs", features = ["celo"] }
+ethers-core = { path = "../ethers-rs/ethers-core", features = ["celo"] }
+ethers-providers = { path = "../ethers-rs/ethers-providers", features = ["celo", "ws"] }
 
 bls-crypto = { git = "https://github.com/celo-org/celo-bls-snark-rs" }
 epoch-snark = { git = "https://github.com/celo-org/celo-bls-snark-rs" }
@@ -22,3 +22,6 @@ futures-util = "0.3.5"
 tokio = { version = "0.2.21", features = ["macros"] }
 serde = "1.0.114"
 serde-rlp = "0.1.4"
+hex = "0.4.2"
+rand = "0.7.3"
+
