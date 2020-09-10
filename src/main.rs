@@ -64,7 +64,7 @@ async fn main() -> anyhow::Result<()> {
         .with_env_filter(EnvFilter::from_default_env())
         .init();
 
-    let provider = Arc::new(Provider::<Http>::try_from("http://52.188.172.83:8545")?);
+    let provider = Arc::new(Provider::<Http>::try_from("http://127.0.0.1:8545")?);
 
         let futs = (25u64..35)
             .step_by(1)
@@ -78,10 +78,10 @@ async fn main() -> anyhow::Result<()> {
 
                     let block = provider.get_block(num).await.expect("could not get block");
                     //println!("block: {:?}", block);
-                    let previous_validators = provider.get_validators_public_keys(format!("0x{:x}", previous_num+1)).await.expect("could not get validators");
-                    let previous_validators_keys = previous_validators.into_iter().map(|s| BlsPubkey::deserialize(&mut std::io::Cursor::new(&s))).collect::<Result<Vec<_>, _>>().unwrap();
-                    let validators = provider.get_validators_public_keys(format!("0x{:x}", num+1)).await.expect("could not get validators");
-                    let validators_keys = validators.into_iter().map(|s| BlsPubkey::deserialize(&mut std::io::Cursor::new(&s))).collect::<Result<Vec<_>, _>>().unwrap();
+                    let previous_validators = provider.get_validators_bls_public_keys(format!("0x{:x}", previous_num+1)).await.expect("could not get validators");
+                    let previous_validators_keys = previous_validators.into_iter().map(|s| BlsPubkey::deserialize(&mut hex::decode(&s[2..]).unwrap().as_slice())).collect::<Result<Vec<_>, _>>().unwrap();
+                    let validators = provider.get_validators_bls_public_keys(format!("0x{:x}", num+1)).await.expect("could not get validators");
+                    let validators_keys = validators.into_iter().map(|s| BlsPubkey::deserialize(&mut hex::decode(&s[2..]).unwrap().as_slice())).collect::<Result<Vec<_>, _>>().unwrap();
                     //println!("valiators keys: {}", validators_keys.len());
                     println!("valiators: {}", previous_validators_keys == validators_keys);
 
