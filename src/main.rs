@@ -1,8 +1,4 @@
-use algebra_core::{CanonicalDeserialize, CanonicalSerialize};
-use groth16::Parameters as Groth16Parameters;
-
-
-use epoch_snark::{prove, BLSCurve, CPCurve, EpochBlock, EpochTransition, Parameters};
+use epoch_snark::{prove, BLSCurve, EpochBlock, EpochTransition, Parameters};
 use bls_crypto::Signature;
 
 use ethers_core::{types::U256, utils::rlp};
@@ -117,7 +113,7 @@ async fn main() -> anyhow::Result<()> {
 
     // load the proving key(s)
     let mut file = BufReader::new(File::open(opts.epoch_proving_key)?);
-    let epoch_proving_key = Groth16Parameters::<CPCurve>::deserialize(&mut file).unwrap();
+    let epoch_proving_key = Groth16Parameters::<PairingEngine>::deserialize(&mut file).unwrap();
 
     let hash_to_bits_proving_key = if let Some(path) = opts.hash_to_bits_proving_key {
         let mut file = BufReader::new(File::open(path)?);

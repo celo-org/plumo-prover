@@ -12,26 +12,26 @@ ethers-providers = { git = "https://github.com/gakonst/ethers-rs", features = ["
 bls-crypto = { git = "https://github.com/celo-org/celo-bls-snark-rs", commit = "13cc5666de0bbd51ebea12d373819bf763bcb99f" }
 epoch-snark = { git = "https://github.com/celo-org/celo-bls-snark-rs", commit = "13cc5666de0bbd51ebea12d373819bf763bcb99f" }
 
-ark-ff = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
-ark-ec = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
-ark-serialize = { git = "https://github.com/arkworks-rs/algebra", features = [ "derive" ], rev = "8d76d18" }
+#ark-ff = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
+#ark-ec = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
+##ark-serialize = { git = "https://github.com/arkworks-rs/algebra", features = [ "derive" ], rev = "8d76d18" }
 
-ark-bls12-377 = { git = "https://github.com/arkworks-rs/curves", features = [ "r1cs" ], rev = "6ed2450" }
-ark-bw6-761 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
-ark-ed-on-bw6-761 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
-ark-ed-on-bls12-377 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
+#ark-bls12-377 = { git = "https://github.com/arkworks-rs/curves", features = [ "r1cs" ], rev = "6ed2450" }
+#ark-bw6-761 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
+#ark-ed-on-bw6-761 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
+#ark-ed-on-bls12-377 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
 
 
-ark-crypto-primitives = { git = "https://github.com/arkworks-rs/crypto-primitives", features = ["parallel", "r1cs"], rev = "fde39ab" }
-ark-r1cs-std = { git = "https://github.com/arkworks-rs/r1cs-std", default-features = false, features = ["std", "parallel"], rev = "e5ec2e6" }
+#ark-crypto-primitives = { git = "https://github.com/arkworks-rs/crypto-primitives", features = ["parallel", "r1cs"], rev = "fde39ab" }
+#ark-r1cs-std = { git = "https://github.com/arkworks-rs/r1cs-std", default-features = false, features = ["std", "parallel"], rev = "e5ec2e6" }
 
-ark-relations = { git = "https://github.com/arkworks-rs/snark", features = [ "std" ], rev = "8d9055d"  }
-ark-snark = { git = "https://github.com//arkworks-rs/snark", rev = "8d9055d"}
+#ark-relations = { git = "https://github.com/arkworks-rs/snark", features = [ "std" ], rev = "8d9055d"  }
+#ark-snark = { git = "https://github.com//arkworks-rs/snark", rev = "8d9055d"}
 
 #ark-groth16 = { git = "https://github.com/arkworks-rs/groth16", features = [ "std", "parallel", "r1cs" ] }
 
-ark-std = { git = "https://github.com/arkworks-rs/std", rev = "d0be44c" }
-bench-utils = { git = "https://github.com/arkworks-rs/utils" }
+#ark-std = { git = "https://github.com/arkworks-rs/std", rev = "b37f1c8" }
+#bench-utils = { git = "https://github.com/arkworks-rs/utils" }
 
 algebra-core = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
 groth16 = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
@@ -46,4 +46,4 @@ serde = "1.0.114"
 serde-rlp = "0.1.4"
 
 [patch.'https://github.com/arkworks-rs/utils']
-bench-utils = { git = "https://github.com/arkworks-rs/std", rev = "b37f1c8" }
+bench-utils = { git = "https://github.com/gtank/zexe", branch = "fix-v0.1.0-for-rust-1.57" }
