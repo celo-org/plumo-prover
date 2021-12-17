@@ -1,4 +1,4 @@
-use ark_serialize::{CanonicalDeserialize, CanonicalSerialize, SerializationError};
+use ark_serialize::{CanonicalDeserialize};
 use bls_crypto::{PublicKey as BlsPubkey, Signature};
 use ethers_core::{
     types::*,

@@ -1,8 +1,8 @@
 use epoch_snark::{prove, BLSCurve, BWCurve, EpochBlock, EpochTransition, Parameters};
-use bls_crypto::{Signature, PublicKey};
+use bls_crypto::Signature;
 
-use ark_serialize::{CanonicalDeserialize, CanonicalSerialize, SerializationError};
-use ark_groth16::{ProvingKey as Groth16Parameters, Proof};
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
+use ark_groth16::{ProvingKey as Groth16Parameters};
 
 use ethers_core::{types::U256, utils::rlp};
 use ethers_providers::*;
@@ -82,10 +82,11 @@ async fn main() -> anyhow::Result<()> {
                 let block = provider.get_block(num).await.expect("could not get block").unwrap();
                 let epoch = rlp::decode::<HeaderExtra>(&block.extra_data.0)
                     .expect("could not decode extras");
+                let epoch_snark_data = &block.epoch_snark_data.expect("epoch snark data was not present");
 
                 // Get the bitmap / signature
                 let bitmap = {
-                    let bitmap_num = U256::from(&block.epoch_snark_data.unwrap().bitmap.0[..]);
+                    let bitmap_num = U256::from(&epoch_snark_data.bitmap.0[..]);
                     let mut bitmap = Vec::new();
                     for i in 0..256 {
                         bitmap.push(bitmap_num.bit(i));
@@ -93,9 +94,8 @@ async fn main() -> anyhow::Result<()> {
                     bitmap
                 };
 
-                let epoch_snark_data = block.epoch_snark_data;
-                let signature = epoch_snark_data.signature;
-                let aggregate_signature = bls_crypto::bls::Signature::deserialize(&mut &signature.0[..])
+                let signature = &epoch_snark_data.signature;
+                let aggregate_signature = Signature::deserialize(&mut &signature.0[..])
                     .expect("could not deserialize signature - your header snark data is corrupt");
 
                 // construct the epoch block transition
@@ -104,11 +104,11 @@ async fn main() -> anyhow::Result<()> {
                         index: i as u16,
                         maximum_non_signers,
                         new_public_keys: epoch.added_validators_pubkeys,
-                        // TOOO: wtf
-                        round: todo!(),
-                        epoch_entropy: todo!(),
-                        parent_entropy: todo!(),
-                        maximum_validators: todo!(),
+                        // TODO: The four fields below are new, and need to be filled with real values.
+                        round: 0u8,
+                        epoch_entropy: vec![].into(),
+                        parent_entropy: vec![].into(),
+                        maximum_validators: 300,
                     },
                     aggregate_signature,
                     bitmap,
@@ -136,9 +136,9 @@ async fn main() -> anyhow::Result<()> {
         hash_to_bits: hash_to_bits_proving_key,
     };
 
-    let MAX_TRANSITIONS: usize = 10; // TOOO: wtf
+    let max_transitions: usize = 10; // TOOO: this also needs to be filled with a real value
 
-    let proof = prove(&parameters, num_validators, &first_epoch, &transitions, MAX_TRANSITIONS)
+    let proof = prove(&parameters, num_validators, &first_epoch, &transitions, max_transitions)
         .expect("could not generate zkp");
 
     let mut file = BufWriter::new(File::create(opts.proof_path)?);
