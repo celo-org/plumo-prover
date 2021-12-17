@@ -1,4 +1,4 @@
-use algebra_core::CanonicalDeserialize;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize, SerializationError};
 use bls_crypto::{PublicKey as BlsPubkey, Signature};
 use ethers_core::{
     types::*,
@@ -45,7 +45,7 @@ pub struct HeaderExtra {
     pub parent_aggregated_seal: AggregatedSeal,
 }
 
-impl Decodable for HeaderExtra {
+impl Decodable for HeaderExtra {    
     fn decode(r: &Rlp) -> Result<Self, rlp::DecoderError> {
         // Skip the first vanity bytes
         let r = Rlp::new(&r.as_raw()[VANITY..]);

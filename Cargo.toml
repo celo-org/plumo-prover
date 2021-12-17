@@ -14,7 +14,7 @@ epoch-snark = { git = "https://github.com/celo-org/celo-bls-snark-rs", commit = 
 
 #ark-ff = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
 #ark-ec = { git = "https://github.com/arkworks-rs/algebra", features = [ "std", "parallel"], rev = "8d76d18" }
-##ark-serialize = { git = "https://github.com/arkworks-rs/algebra", features = [ "derive" ], rev = "8d76d18" }
+ark-serialize = { git = "https://github.com/arkworks-rs/algebra", features = [ "derive" ], commit = "8d76d18" }
 
 #ark-bls12-377 = { git = "https://github.com/arkworks-rs/curves", features = [ "r1cs" ], rev = "6ed2450" }
 #ark-bw6-761 = { git = "https://github.com/arkworks-rs/curves", rev = "6ed2450" }
@@ -28,13 +28,13 @@ epoch-snark = { git = "https://github.com/celo-org/celo-bls-snark-rs", commit = 
 #ark-relations = { git = "https://github.com/arkworks-rs/snark", features = [ "std" ], rev = "8d9055d"  }
 #ark-snark = { git = "https://github.com//arkworks-rs/snark", rev = "8d9055d"}
 
-#ark-groth16 = { git = "https://github.com/arkworks-rs/groth16", features = [ "std", "parallel", "r1cs" ] }
+ark-groth16 = { git = "https://github.com/arkworks-rs/groth16", features = [ "std", "parallel", "r1cs" ] }
 
 #ark-std = { git = "https://github.com/arkworks-rs/std", rev = "b37f1c8" }
 #bench-utils = { git = "https://github.com/arkworks-rs/utils" }
 
-algebra-core = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
-groth16 = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
+#algebra-core = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
+#groth16 = { git = "https://github.com/gtank/zexe", features = ["parallel"], branch = "fix-v0.1.0-for-rust-1.57" }
 
 gumdrop = "0.8.0"
 tracing-subscriber = "0.2.6"
